@@ -1,0 +1,26 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: common
+
+  datasource:
+    url: 'jdbc:sqlserver://192.168.70.40:1433;Databasename=dxn_tenant1'
+    username: 'sa'
+    password: 'sa123!'
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+
+  jpa:
+    database: sql_server
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: update
+        default_schema: dbo
+        dialect: org.hibernate.dialect.SQLServer2012Dialect
+    show-sql: true
+
+
+
+
