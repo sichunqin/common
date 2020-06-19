@@ -2,9 +2,11 @@ package com.example.hibernate1;
 
 import com.example.hibernate1.dao.CustomerDao;
 import com.example.hibernate1.dao.LinkManDao;
+import com.example.hibernate1.dao.TenantDao;
 import com.example.hibernate1.domain.Customer;
 import com.example.hibernate1.domain.LinkMan;
 
+import com.example.hibernate1.domain.Tenant;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Set;
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -24,6 +27,10 @@ public class Hibernate1ApplicationTests {
 
     @Autowired
     private LinkManDao linkManDao;
+
+    @Autowired
+    private TenantDao tenantDao;
+
     @Test
     public void contextLoads() {
     }
@@ -64,6 +71,22 @@ public class Hibernate1ApplicationTests {
         for (LinkMan linkMan : linkMans) {
             System.out.println(linkMan);
         }
+    }
+
+    @Test
+    @Transactional // 解决在java代码中的no session问题
+    public void  testQueryTenant() {
+        //查询id为1的客户
+        List<Tenant> tenants = tenantDao.findAll();
+
+        for (Tenant t : tenants) {
+            System.out.println(t.toUrl());
+        }
+        tenants = tenantDao.findByIsEnabled(true);
+        for (Tenant t : tenants) {
+            System.out.println(t.toUrl());
+        }
+
     }
 
 }

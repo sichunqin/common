@@ -16,7 +16,7 @@ spring:
     properties:
       hibernate:
         hbm2ddl:
-          auto: update
+          auto: none
         default_schema: dbo
         dialect: org.hibernate.dialect.SQLServer2012Dialect
     show-sql: true
