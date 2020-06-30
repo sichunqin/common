@@ -88,7 +88,7 @@ public class Tenant {
     }
 
     //jdbc:sqlserver://192.168.70.40:1433;Databasename=DaXinJavaBS_test2020060401
-    public String toUrl(){
+    public String getUrl(){
 
         return "jdbc:sqlserver://" + dataBaseServer.getIpAddress() + ";Databasename=" + dataBaseName;
     }
