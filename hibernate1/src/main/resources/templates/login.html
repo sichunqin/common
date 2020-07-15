@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title th:text="${title}"></title>
+    <script type="text/javascript" th:src="@{/webjars/jquery/3.3.1/jquery.js}"></script>
+
+    <style type="text/css">
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        html {
+            height: 100%;
+            background:url(Img/web_login_bg.jpg);
+            background-repeat: no-repeat;
+            background-size: 100%
+        }
+
+        #content {
+            background-color: rgba(255, 255, 255, 0.95);
+            width: 420px;
+            border: 1px solid #000000;
+            border-radius: 6px;
+            padding: 10px 10px 30px 10px;
+            margin-top: 15%;
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+        }
+
+        .login-header {
+            width: 100%;
+            height: 48px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #dcdcdc;
+            margin-top: 20px;
+        }
+
+        .login-input-box {
+            margin-top: 12px;
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+            display: inline-block;
+        }
+
+        .login-validation-box {
+            margin-top: 12px;
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+            display: inline-block;
+        }
+
+        .login-validation-box input {
+            width: 260px;
+            height: 32px;
+            margin-left: 18px;
+            border: 1px solid #dcdcdc;
+            border-radius: 4px;
+            padding-left: 5px;
+        }
+
+        .login-validation-box img {
+            width: 100px;
+            height: 32px;
+            line-height: 32px;
+            text-align: center;
+            border: 1px solid #dedede;
+            display: block;
+            float: right;
+            margin-right: 20px;
+        }
+
+        .login-input-box input {
+            width: 340px;
+            height: 32px;
+            margin-left: 18px;
+            border: 1px solid #dcdcdc;
+            border-radius: 4px;
+            padding-left: 42px;
+        }
+
+        .login-input-box input:hover {
+            border: 1px solid #3392cc;
+        }
+
+        .login-input-box input:after {
+            border: 1px solid #ff7d0a;
+        }
+
+        .login-input-box .icon {
+            width: 24px;
+            height: 24px;
+            margin: 6px 4px 6px 24px;
+            background-color: #ff7d0a;
+            display: inline-block;
+            position: absolute;
+            border-right: 1px solid #dcdcdc;
+        }
+
+        .login-input-box .icon.icon-user {
+            background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAACd0lEQVRIS7VV7XUaMRDclQoIqQBcgWVRgHEF4A5IBYEKAhXYqSDuwKaCkAIkKxUYKkhSgLR5c0/iieP48A/fv7tb7czOzq6YPvjhD85PZwGGw+FERMbMPCCiUSa0FpFNSuklhLA6RfIoQE78gMQi8puI1kT0NyfrAYyZrwHEzHPn3EsXUCeAtfaRmb+KyK+U0iyEELoOG2OMUgqxtyKy8N4v23EHAFXyuff+EQeMMT2lFKoxeBeRkFKahxCaiqy1M2Z+EJGl935Rg+wBQBYiehaROjlY/iSif0RUZEDcp5TSXamugBDRfS3XHoC1dkNEG+99aSbYNfKklEaFca5ozczinLspjK216FPfe39Vvu0ACvsY401hBY211q9tVjhcxV+FEEAMUo601qh2V0UN8CQixnvf6FwfiDF+LuyrfwOt9VuMETKBefNABWZeO+emeN8B5PKC935WJbmkgl3FGQDGANFG5roC6XJB0TWldF9Lp5R6JqJt3a8MsGDmb865JvdZAGPMQCmFhvbzsOHcCMOXUpoU/SuJugG6JMqMoCVmoCci24YVc19EMAOw81Pte8zRMYkQeN2y3ZSZfxDRKsY4rWyKBiPRWES+1CBHm9y2aZbmlZlXxRHtNTAcDuG8cUoJjd6ctGllsTfn3F2ZzC6LVi7raa3/lMnPMg+899i8zXN0VeTNieC93dKuwlqL/xi0AdxzclXUNiOimXPuezth1ztAkPzssmtbDbaMMS7rSa0BsuZgDdsebNIDierD+cLBroclIQE2aX3hTPJltGVmVHv5hdMGIiJcm9D4Fv9wETFzA3oscWeTL9H7vTFnL/33JmzH/weaR68oO0+HAAAAAABJRU5ErkJggg==");
+        }
+
+        .login-input-box .icon.icon-password {
+            background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABzUlEQVRIS62V8VUCMQzGk94A4gY4gbUdQJhAnUDdACcQJ5ARYAJ0AnCAq2ECdQMcII0vvDvecVIoaP880u/3NU0/EI5Yzrk7RLwSEYuIXQAgEaEY44SI5k1JPETfWmuNMdNKNLV1zsw3RLTUgmxAJT5DxE6GKWLmvkKyANbajjHmI1O85s/LsuxnAZxzQ0R8zHC+UaKnyAJ477WfJ83dIvKFiANm/jTG9BBx2K4BgMlegPa+KIr3tntmPiOiz/q7c26AiM+tOsoB9IqimLXcL0IItvktZSQHkDrBaT2KCvLeXwPA9Fcbcy7Oey/tOhEZxxgfFLLjfbzuPUHlbgwAtwkzBAAb7arrROR+L+DAB7b2oFMWQujuBBwrDgDfzNwjovQU/Yd4Mov2iH8DwEv7TrQlAKAXP2pO168WbRF/1SiuomJ9dHWntQCg4bfUdmwbgg1AwvkqtCoxSAmlxn0NaIuLyAIRz3WjiDyFEDRrDl4rwDbnzHyhvxljRjHGwaHOaye440KpLMsV5C8Lm1GsbYkx3hljxvq3yMy2mZjHgBSwzhkRWcYYL1TUWtv9q/jqHTjn5oh42ciPtxBC7xi3W8fUOTfSe64gG3P+H5Af+Fr/1y/HPqUAAAAASUVORK5CYII=");
+        }
+
+        .login-button-box {
+            /* margin-top: 12px;*/
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+            display: inline-block;
+        }
+
+        #login_button {
+            background-color: #3392cc;
+            color: #ffffff;
+            font-size: 16px;
+            line-height: 0px;
+            width: 386px;
+            height: 40px;
+            margin-left: 18px;
+            border: 1px solid #3392cc;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #login_button:hover {
+            background-color: #59c0ff;
+        }
+
+        #login_button:active {
+            background-color: #ee7204;
+        }
+
+        #login_button:disabled{
+            border:1px solid #DDD;
+            background-color:#3392cc;
+            color:#ffffff;
+            cursor: default;
+        }
+
+        .login-error-message {
+            color: red;
+            margin-left: 24px;
+        }
+    </style>
+
+    <script type="text/javascript">
+        $(function () {
+            $('#kaptcha').bind({
+                input: function () {
+                    setInvalid();
+                },
+                keyup: function () {
+                    var paramsTime = {
+                        kaptcha: this.value
+                    };
+                    $.ajax({
+                        url: "/verify-kaptcha",
+                        data: paramsTime,
+                        type: "POST",
+                        success: function (data) {
+                            if (data === "kaptcha_error") {
+                                setInvalid();
+                            } else {
+                                setValid();
+                            }
+
+                        }
+                    });
+                }
+            });
+            $('#userName').bind('input',function(){
+                if($('#userName').val() !== ""){
+                    setValid();
+                }
+                else{
+                    setInvalid();
+                }
+                $('#password').val('');
+            })
+        });
+
+        function setValid() {
+            $('#login_button').removeAttr("disabled");
+        }
+
+        function setInvalid() {
+            $('#login_button').attr('disabled', "true");
+        }
+    </script>
+</head>
+
+<body>
+<form id="loginForm" method="post" >
+    <div id="content" >
+        <div class="login-header">
+
+            <img th:src="@{/Img/logo_smart.png}" style="height:45px;margin-left: 20px;"></img>
+        </div>
+
+        <div class="login-input-box">
+            <span class="icon icon-user"></span>
+            <input class="required"
+                   id="userName"
+                   name="userName"
+                   size="25"
+                   tabindex="1"
+                   type="text"
+                   placeholder="请输入用户名"/>
+        </div>
+        <div class="login-input-box">
+            <span class="icon icon-password"></span>
+            <input class="required"
+                   type="password"
+                   id="password"
+                   name="password"
+                   size="25"
+                   tabindex="2"
+                   placeholder="请输入密码"/>
+        </div>
+        <div class="login-input-box" >
+            <span class="login-error-message" th:text="${mes}" th:if="${not #strings.isEmpty(mes)}" />
+
+        </div>
+        <div class="login-validation-box" th:if="${not #strings.isEmpty(mes)}" >
+            <input class="required"
+                   id="kaptcha"
+                   name="sentKaptcha"
+                   type="text"
+                   size="25"
+                   tabindex="3"
+
+                   placeholder="请输入验证码"/>
+            <img th:src="@{/logon/get-kaptcha}" onclick="this.src='/logon/get-kaptcha?d='+new Date()*1" />
+        </div>
+
+        <div class="login-button-box">
+            <input id="login_button"
+                   accesskey="l"
+                   th:value="登录"
+                   tabindex="6"
+                   type="submit"
+                   disabled="true"
+                   />
+        </div>
+    </div>
+</form>
+</body>
+</html>

@@ -1,16 +1,21 @@
 server:
   port: 8080
-
 spring:
+  thymeleaf:
+    cache: false
   application:
-    name: common
-
+    name: hibernate1
   datasource:
-    url: 'jdbc:sqlserver://192.168.70.40:1433;Databasename=dxn_tenant1'
+    hikari:
+      minimum-idle: 1
+      maximum-pool-size: 20
+    url: 'jdbc:sqlserver://192.168.70.40:1433;Databasename=dxn_tenant'
     username: 'sa'
     password: 'sa123!'
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
   jpa:
     database: sql_server
     properties:
@@ -20,7 +25,3 @@ spring:
         default_schema: dbo
         dialect: org.hibernate.dialect.SQLServer2012Dialect
     show-sql: true
-
-
-
-
